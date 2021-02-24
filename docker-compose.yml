@@ -1,0 +1,34 @@
+services:
+
+
+  config-service:
+    build:
+      context: ./config-service/
+    restart: unless-stopped
+    image: kulikov/config-service
+    environment:
+      CONFIG_SERVICE_HOST: config-service
+      CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
+    ports:
+      - ${CONFIG_SERVICE_PORT}:${CONFIG_SERVICE_PORT}
+
+  service:
+    build:
+      context: ./service/
+    restart: unless-stopped
+    image: kulikov/service
+    environment:
+      SERVICE_DB_HOST: ${SERVICE_DB_HOST}
+      SERVICE_DB_PORT: ${SERVICE_DB_PORT}
+      SERVICE_DB_DATABASE: ${SERVICE_DB_DATABASE}
+      SERVICE_DB_USER: ${SERVICE_DB_USER}
+      SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
+      CONFIG_SERVICE_HOST: config-service
+      CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
+      SERVICE_PORT: ${SERVICE_PORT}
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - ${SERVICE_PORT}:${SERVICE_PORT}
+      - '5005:5005'
+    depends_on:
+      - config-service

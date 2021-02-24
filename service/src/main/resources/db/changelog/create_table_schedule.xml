@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create_table_schedule" author="kulikoff">
+
+        <createTable tableName="t_schedule">
+
+            <column name="pres_id" type="bigint">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="pres_id"
+                             references="t_presentation(id)"
+                />
+            </column>
+
+            <column name="room_id" type="bigint"/>
+
+            <column name="time" type="bigint"/>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

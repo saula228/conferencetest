@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+
+  service-db:
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${SERVICE_DB_DATABASE}
+      POSTGRES_USER: ${SERVICE_DB_USER}
+      POSTGRES_PASSWORD: ${SERVICE_DB_PASSWORD}
+    volumes:
+      - service-db:/var/lib/postgres/data
+    ports:
+      - ${SERVICE_DB_PORT}:5432
+
+volumes:
+  service-db:
+    driver: local
